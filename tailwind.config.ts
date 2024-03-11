@@ -13,6 +13,44 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      fontFamily: {
+        pacifico: ["Pacifico"],
+      },
+      keyframes: {
+        gelatine: {
+          "from, to": { transform: "scale(1, 1)" },
+          "25%": { transform: "scale(0.95, 1.05)" },
+          "50%": { transform: "scale(1.05, 0.95)" },
+          "75%": { transform: "scale(0.95, 1.05)" },
+        },
+        hoverScale: {
+          "from, to": { transform: "scale(1, 1.1)" },
+          "0%": { transform: "scale(1, 1)" },
+          "100%": { transform: "scale(1.1, 1.1)" },
+        },
+        hoverScaleReverse: {
+          "from, to": { transform: "scale(1.1, 1.1)" },
+          "0%": { transform: "scale(1.1, 1.1)" },
+          "100%": { transform: "scale(1, 1)" },
+        },
+        middleToTop: {
+          "0%": {
+            transform: "translate(-50%, -50%) translateY(50%)",
+            opacity: "1",
+          },
+          "100%": {
+            transform: "translate(-50%, -50%) translateY(100px)",
+            opacity: "1",
+          },
+        },
+      },
+
+      animation: {
+        gelatine: "gelatine 1.5s infinite",
+        hoverScale: "hoverScale 0.1s ease-out forwards",
+        hoverScaleReverse: "hoverScaleReverse 0.1s ease-out forwards",
+        middleToTop: "middleToTop 1.5s",
+      },
     },
   },
   plugins: [],
