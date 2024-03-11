@@ -1,7 +1,10 @@
 "use server";
 import OpenAI from "openai";
 
-const apiExplanationResponse = async function (topic: string | null) {
+const apiExplanationResponse = async function (
+  topic?: string | null,
+  prevResponse?: string | null
+) {
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
@@ -9,8 +12,7 @@ const apiExplanationResponse = async function (topic: string | null) {
     messages: [
       {
         role: "system",
-        content:
-          "You are a programming teacher and should always adapt your answer to a maximum of 500 tokens.",
+        content: `You must always adapt your answer to a maximum of 500 tokens. Start by analyzing the content of ${prevResponse}. Your answer should differ from the content in ${prevResponse}`,
       },
       { role: "user", content: `What is ${topic}?` },
     ],

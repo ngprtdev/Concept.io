@@ -9,11 +9,12 @@ const getRandomTopic = async function () {
     messages: [
       {
         role: "user",
-        content: `Give a random programming topic related to React. Your answer should not be a sentence but only the concept in max 3 words`,
+        content: `Give a random programming topic in max 3 words related to web development. Your answer must not mix different concepts`,
       },
     ],
     model: "gpt-3.5-turbo",
-    max_tokens: 10,
+    max_tokens: 5,
+    temperature: 1.8,
   });
   return completion.choices[0];
 };
