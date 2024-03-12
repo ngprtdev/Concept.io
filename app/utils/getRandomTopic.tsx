@@ -1,7 +1,7 @@
 "use server";
 import OpenAI from "openai";
 
-const getRandomTopic = async function () {
+const getRandomTopic = async function (previousTopics: string[]) {
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
@@ -9,12 +9,12 @@ const getRandomTopic = async function () {
     messages: [
       {
         role: "user",
-        content: `Give a random programming topic in max 3 words related to web development. Your answer must not mix different concepts`,
+        content: `Give a random programming topic in max 3 words and using only letters or numbers related to web development and different from one of the ${previousTopics}`,
       },
     ],
     model: "gpt-3.5-turbo",
-    max_tokens: 5,
-    temperature: 1.8,
+    max_tokens: 3,
+    temperature: 1,
   });
   return completion.choices[0];
 };

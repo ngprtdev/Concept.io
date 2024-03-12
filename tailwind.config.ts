@@ -48,11 +48,11 @@ const config: Config = {
             opacity: "0",
           },
           "100%": {
-            transform: "translate(-49%, -50%) translateY(15%)",
+            transform: "translate(-49%, -50%) translateY(14.5%)",
             opacity: "1",
           },
         },
-        topToMiddle: {
+        topToMiddleLarge: {
           "0%": {
             transform: "translate(-49%, -50%) translateY(10%)",
             opacity: "0",
@@ -63,6 +63,20 @@ const config: Config = {
           },
           "100%": {
             transform: "translate(-49%, -52%) translateY(50%)",
+            opacity: "0",
+          },
+        },
+        topToMiddleSmall: {
+          "0%": {
+            transform: "translate(-49%, -50%) translateY(14.5%)",
+            opacity: "0",
+          },
+          "85%": {
+            transform: "translate(-49%, -52%) translateY(48%)",
+            opacity: "1",
+          },
+          "100%": {
+            transform: "translate(-49%, -52%) translateY(48%)",
             opacity: "0",
           },
         },
@@ -84,7 +98,8 @@ const config: Config = {
         textOpacity: "textOpacity 0.8s",
         middleToTopLarge: "middleToTopLarge 1.5s",
         middleToTopSmall: "middleToTopSmall 1.5s",
-        topToMiddle: "topToMiddle 1.5s",
+        topToMiddleLarge: "topToMiddleLarge 1.5s",
+        topToMiddleSmall: "topToMiddleSmall 1.5s",
         hoverScale: "hoverScale 0.1s ease-out forwards",
         hoverScaleReverse: "hoverScaleReverse 0.1s ease-out forwards",
       },

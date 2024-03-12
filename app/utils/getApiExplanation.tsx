@@ -3,7 +3,7 @@ import OpenAI from "openai";
 
 const apiExplanationResponse = async function (
   topic?: string | null,
-  prevResponse?: string | null
+  prevResponse?: string[]
 ) {
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -12,7 +12,7 @@ const apiExplanationResponse = async function (
     messages: [
       {
         role: "system",
-        content: `You must always adapt your answer to a maximum of 500 tokens. Start by analyzing the content of ${prevResponse}. Your answer should differ from the content in ${prevResponse}`,
+        content: `You must always adapt your answer to a maximum of 500 tokens.`,
       },
       { role: "user", content: `What is ${topic}?` },
     ],

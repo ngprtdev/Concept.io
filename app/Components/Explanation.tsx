@@ -4,20 +4,19 @@ import apiExplanationResponse from "../utils/getApiExplanation";
 interface ExplanationProps {
   topic: string | null;
   response: string | null;
-  prevResponse: string | null;
   handleGoBack: () => void;
 }
 
 const Explanation: React.FC<ExplanationProps> = ({
   topic,
   response,
-  prevResponse,
   handleGoBack,
 }) => {
   const [openingAnimation, setOpeningAnimation] = useState<boolean>(true);
   const [closingAnimation, setClosingAnimation] = useState<boolean>(false);
   const [newExplanation, setNewExplanation] = useState(response);
   const [newExplanationLoader, setNewExplanationLoader] = useState(false);
+  const [prevResponse, setPrevResponse] = useState<string[]>([]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -44,12 +43,14 @@ const Explanation: React.FC<ExplanationProps> = ({
         const data = await apiExplanationResponse(topic, prevResponse);
 
         setNewExplanation(data.message.content);
+        setPrevResponse((prev) => [...prev, data.message.content]);
       } catch (error) {
         console.error("Error:", error);
       }
     };
 
     await fetchData();
+
     setNewExplanationLoader(false);
   };
 
@@ -62,7 +63,7 @@ const Explanation: React.FC<ExplanationProps> = ({
             : "animate-textOpacity"
         } ${
           closingAnimation
-            ? "animate-topToMiddle h-screen fixed transform top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0"
+            ? "animate-topToMiddleSmall sm:animate-topToMiddleLarge h-screen fixed transform top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0"
             : ""
         }`}
       >
@@ -85,7 +86,7 @@ const Explanation: React.FC<ExplanationProps> = ({
         )}
       </p>
       <div
-        className={`flex flex-row w-full justify-between text-lg sm:text-2xl font-semibold max-sm:px-4 ${
+        className={`flex flex-row w-full justify-around text-lg sm:text-2xl font-semibold max-sm:px-4 ${
           openingAnimation
             ? "opacity-0"
             : "opacity-100 transition-opacity duration-1000"
@@ -102,12 +103,6 @@ const Explanation: React.FC<ExplanationProps> = ({
         </button>
         <button className="hover:animate-hoverScale animate-hoverScaleReverse">
           Show code example
-        </button>
-        <button
-          className="hover:animate-hoverScale self-start animate-hoverScaleReverse"
-          onClick={handleNewSearch}
-        >
-          Learn more...
         </button>
       </div>
     </>
