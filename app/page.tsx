@@ -63,7 +63,7 @@ export default function Home() {
   };
 
   return (
-    <div className="font-pacifico w-full h-[80%] sm:w-2/3 flex flex-col items-center justify-between sm:max-w-5xl mx-auto">
+    <div className="font-pacifico w-full h-[80%] sm:w-2/3 flex flex-col items-center justify-between  mx-auto">
       {isExplained ? (
         <Explanation
           topic={topic}

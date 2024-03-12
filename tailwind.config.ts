@@ -32,13 +32,23 @@ const config: Config = {
           },
         },
 
-        middleToTop: {
+        middleToTopLarge: {
           "0%": {
             transform: "translate(-49%, -50%) translateY(50%)",
             opacity: "0",
           },
           "100%": {
             transform: "translate(-49%, -50%) translateY(10%)",
+            opacity: "1",
+          },
+        },
+        middleToTopSmall: {
+          "0%": {
+            transform: "translate(-49%, -50%) translateY(50%)",
+            opacity: "0",
+          },
+          "100%": {
+            transform: "translate(-49%, -50%) translateY(15%)",
             opacity: "1",
           },
         },
@@ -72,7 +82,8 @@ const config: Config = {
       animation: {
         gelatine: "gelatine 1.5s infinite",
         textOpacity: "textOpacity 0.8s",
-        middleToTop: "middleToTop 1.5s",
+        middleToTopLarge: "middleToTopLarge 1.5s",
+        middleToTopSmall: "middleToTopSmall 1.5s",
         topToMiddle: "topToMiddle 1.5s",
         hoverScale: "hoverScale 0.1s ease-out forwards",
         hoverScaleReverse: "hoverScaleReverse 0.1s ease-out forwards",
