@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Explanation from "../Components/Explanation";
 import apiExplanationResponse from "../utils/getApiExplanation";
 import getRandomTopic from "../utils/getRandomTopic";
@@ -9,13 +9,14 @@ type HandleGoBack = () => void;
 
 interface TopicProps {
   firstTopic: string | null;
+  handleNav: (value?: boolean) => void;
 }
 
-export default function RandomTopic({ firstTopic }: TopicProps) {
+export default function RandomTopic({ firstTopic, handleNav }: TopicProps) {
   const [topic, setTopic] = useState<string | null>(firstTopic);
   const [previousTopics, setPreviousTopics] = useState<string[]>([]);
   const [isExplained, setIsExplained] = useState<boolean>(false);
-  const [response, setResponse] = useState<string | null>("");
+  const [response, setResponse] = useState<string | null>(null);
   const [isSearching, setIsSearching] = useState(false);
 
   const handleClick = async () => {
@@ -48,18 +49,21 @@ export default function RandomTopic({ firstTopic }: TopicProps) {
     };
 
     await fetchData();
+    await handleNav();
     setIsSearching(false);
 
     setIsExplained(true);
   };
 
-  const handleGoBack: HandleGoBack = () => {
+  const handleGoBack: HandleGoBack = async () => {
     const timer = setTimeout(() => {
       setResponse(null);
       setIsExplained(false);
     }, 1500);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+    };
   };
 
   return (
@@ -69,12 +73,10 @@ export default function RandomTopic({ firstTopic }: TopicProps) {
           topic={topic}
           response={response}
           handleGoBack={handleGoBack}
+          handleNav={handleNav}
         />
       ) : (
         <>
-          <p className="text-lg sm:text-3xl font-bold uppercase animate-textOpacity">
-            Can you explain ?
-          </p>
           {isSearching ? (
             <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-white" />
           ) : (
@@ -87,6 +89,7 @@ export default function RandomTopic({ firstTopic }: TopicProps) {
             <button
               className="flex flex-col items-center hover:animate-hoverScale animate-hoverScaleReverse"
               onClick={handleClick}
+              disabled={isSearching}
             >
               <p>Get random topic</p>
               <img
@@ -97,6 +100,7 @@ export default function RandomTopic({ firstTopic }: TopicProps) {
             <button
               className="hover:animate-hoverScale self-start animate-hoverScaleReverse"
               onClick={handleExplanationButton}
+              disabled={isSearching}
             >
               Show explanation
             </button>

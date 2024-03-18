@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
 import apiExplanationResponse from "../utils/getApiExplanation";
+import { TextGenerateEffect } from "./ui/text-generate-effect";
 
 interface ExplanationProps {
   topic: string | null;
-  response: string | null;
+  response: string;
   handleGoBack: () => void;
+  handleNav: (value: boolean) => void;
 }
 
 const Explanation: React.FC<ExplanationProps> = ({
   topic,
   response,
   handleGoBack,
+  handleNav,
 }) => {
   const [openingAnimation, setOpeningAnimation] = useState<boolean>(true);
   const [closingAnimation, setClosingAnimation] = useState<boolean>(false);
-  const [newExplanation, setNewExplanation] = useState(response);
+  const [newExplanation, setNewExplanation] = useState<string>(response);
   const [newExplanationLoader, setNewExplanationLoader] = useState(false);
   const [prevResponse, setPrevResponse] = useState<string[]>([]);
 
@@ -31,27 +34,10 @@ const Explanation: React.FC<ExplanationProps> = ({
 
     const closingTimer = setTimeout(() => {
       setClosingAnimation((prev) => false);
-    }, 1700);
+      handleNav(false);
+    }, 1500);
 
     return () => clearTimeout(closingTimer);
-  };
-
-  const handleNewSearch = async () => {
-    setNewExplanationLoader(true);
-    const fetchData = async () => {
-      try {
-        const data = await apiExplanationResponse(topic, prevResponse);
-
-        setNewExplanation(data.message.content);
-        setPrevResponse((prev) => [...prev, data.message.content]);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    await fetchData();
-
-    setNewExplanationLoader(false);
   };
 
   return (
@@ -81,7 +67,7 @@ const Explanation: React.FC<ExplanationProps> = ({
           <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-white" />
         ) : (
           <p className="max-sm:max-h-[300px] max-sm:overflow-y-scroll animate-textOpacity max-sm:mt-16 max-sm:px-4 ">
-            {newExplanation}
+            <TextGenerateEffect words={newExplanation} />
           </p>
         )}
       </p>

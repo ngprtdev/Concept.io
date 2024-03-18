@@ -1,17 +1,16 @@
 "use client";
 
-import React, { use, useEffect, useState } from "react";
+import React, { use, useState } from "react";
 
 import getRandomTopic from "./utils/getRandomTopic";
 import RandomTopic from "./Components/RandomTopic";
 
 export default function Home() {
   const [landingPage, setLandingPage] = useState<boolean>(true);
-
   const [firstTopic, setFirstTopic] = useState<string | null>(null);
   const [previousTopics, setPreviousTopics] = useState<string[]>([]);
-
   const [isSearching, setIsSearching] = useState(false);
+  const [hideNav, setHideNav] = useState(false);
 
   const StartingClick = async () => {
     setIsSearching(true);
@@ -29,6 +28,10 @@ export default function Home() {
     setIsSearching(false);
 
     setLandingPage(false);
+  };
+
+  const handleNavbarDisplay = (value: boolean) => {
+    setHideNav((prev) => value || !prev);
   };
 
   return (
@@ -53,7 +56,19 @@ export default function Home() {
           </button>
         </>
       ) : (
-        <RandomTopic firstTopic={firstTopic} />
+        <>
+          <p
+            className={`text-lg sm:text-3xl font-bold uppercase animate-textOpacity ${
+              hideNav ? "hidden" : ""
+            }`}
+          >
+            Can you explain ?
+          </p>
+          <RandomTopic
+            firstTopic={firstTopic}
+            handleNav={handleNavbarDisplay}
+          />
+        </>
       )}
     </div>
   );
