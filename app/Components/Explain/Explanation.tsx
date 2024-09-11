@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import apiExplanationResponse from "../utils/getApiExplanation";
-import { TextGenerateEffect } from "./ui/text-generate-effect";
+import { TextGenerateEffect } from "../ui/text-generate-effect";
 
 interface ExplanationProps {
   topic: string | null;
@@ -55,7 +54,7 @@ const Explanation: React.FC<ExplanationProps> = ({
       >
         {topic}
       </h2>
-      <p
+      <div
         className={`text-lg sm:text-xl font-semibold text-justify grow sm:pt-16 ${
           openingAnimation
             ? "opacity-0"
@@ -66,11 +65,11 @@ const Explanation: React.FC<ExplanationProps> = ({
         {newExplanationLoader ? (
           <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-white" />
         ) : (
-          <p className="max-sm:max-h-[300px] max-sm:overflow-y-scroll animate-textOpacity max-sm:mt-16 max-sm:px-4 ">
+          <div className="max-sm:max-h-[300px] max-sm:overflow-y-scroll animate-textOpacity max-sm:mt-16 max-sm:px-4 ">
             <TextGenerateEffect words={newExplanation} />
-          </p>
+          </div>
         )}
-      </p>
+      </div>
       <div
         className={`flex flex-row w-full justify-around text-lg sm:text-2xl font-semibold max-sm:px-4 ${
           openingAnimation
@@ -88,7 +87,7 @@ const Explanation: React.FC<ExplanationProps> = ({
           Go back
         </button>
         <button className="hover:animate-hoverScale animate-hoverScaleReverse">
-          Show code example
+          Tell me more
         </button>
       </div>
     </>

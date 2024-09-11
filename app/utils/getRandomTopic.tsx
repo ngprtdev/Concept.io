@@ -9,7 +9,7 @@ const getRandomTopic = async function (previousTopics: string[]) {
     messages: [
       {
         role: "user",
-        content: `Give a random programming topic in max 3 words and using only letters or numbers related to web development and different from one of the ${previousTopics}`,
+        content: `Give a difficult random programming topic in max 2 words with only letters and numbers related to web development and different from one of the ${previousTopics}. Your answer must not include " or ' characters`,
       },
     ],
     model: "gpt-3.5-turbo",

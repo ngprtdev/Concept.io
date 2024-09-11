@@ -1,7 +1,7 @@
 "use server";
 import OpenAI from "openai";
 
-const apiExplanationResponse = async function (
+const getTopicExplanation = async function (
   topic?: string | null,
   prevResponse?: string[]
 ) {
@@ -23,4 +23,4 @@ const apiExplanationResponse = async function (
   return completion.choices[0];
 };
 
-export default apiExplanationResponse;
+export default getTopicExplanation;
