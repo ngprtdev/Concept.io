@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
+import getNewExplanation from "@/app/utils/getNewExplanation";
 
 interface ExplanationProps {
   topic: string | null;
@@ -18,7 +19,7 @@ const Explanation: React.FC<ExplanationProps> = ({
   const [closingAnimation, setClosingAnimation] = useState<boolean>(false);
   const [newExplanation, setNewExplanation] = useState<string>(response);
   const [newExplanationLoader, setNewExplanationLoader] = useState(false);
-  const [prevResponse, setPrevResponse] = useState<string[]>([]);
+  const [prevResponse, setPrevResponse] = useState<string[]>([response]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -36,7 +37,29 @@ const Explanation: React.FC<ExplanationProps> = ({
       handleNav(false);
     }, 1500);
 
+    setPrevResponse([]);
+    handleGoBack();
+
     return () => clearTimeout(closingTimer);
+  };
+
+  const handleNewRequest = async () => {
+    setNewExplanationLoader(true);
+
+    const fetchData = async () => {
+      try {
+        const data = await getNewExplanation(prevResponse);
+
+        setNewExplanation(data.message.content || "");
+        setPrevResponse([...prevResponse, newExplanation]);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    await fetchData();
+
+    setNewExplanationLoader(false);
   };
 
   return (
@@ -63,9 +86,9 @@ const Explanation: React.FC<ExplanationProps> = ({
         ${closingAnimation ? "hidden" : ""}`}
       >
         {newExplanationLoader ? (
-          <div className="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-white" />
+          <div className="animate-spin rounded-full h-16 w-16 max-sm:mt-16 sm:h-32 sm:w-32 border-t-4 border-b-4 border-white" />
         ) : (
-          <div className="max-sm:max-h-[300px] max-sm:overflow-y-scroll animate-textOpacity max-sm:mt-16 max-sm:px-4 ">
+          <div className="max-sm:max-h-[500px] max-sm:overflow-y-scroll animate-textOpacity max-sm:mt-16 max-sm:px-4">
             <TextGenerateEffect words={newExplanation} />
           </div>
         )}
@@ -80,13 +103,14 @@ const Explanation: React.FC<ExplanationProps> = ({
       >
         <button
           className="hover:animate-hoverScale animate-hoverScaleReverse"
-          onClick={() => {
-            handleClosingAnimation(), handleGoBack();
-          }}
+          onClick={handleClosingAnimation}
         >
           Go back
         </button>
-        <button className="hover:animate-hoverScale animate-hoverScaleReverse">
+        <button
+          className="hover:animate-hoverScale animate-hoverScaleReverse"
+          onClick={handleNewRequest}
+        >
           Tell me more
         </button>
       </div>

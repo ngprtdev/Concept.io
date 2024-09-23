@@ -1,10 +1,9 @@
 "use client";
-
-import React, { use, useState } from "react";
-
+import React, { useState } from "react";
 import getRandomTopic from "./utils/getRandomTopic";
 import RandomTopic from "./Components/Explain/RandomTopic";
 import RandomQuestion from "./Components/Answer/RandomQuestion";
+import NavBar from "./Components/NavBar";
 
 export default function Home() {
   const [landingPage, setLandingPage] = useState<boolean>(true);
@@ -19,7 +18,6 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const data = await getRandomTopic(previousTopics);
-
         setFirstTopic(data.message.content);
       } catch (error) {
         console.error("Error:", error);
@@ -28,50 +26,7 @@ export default function Home() {
 
     await fetchData();
     setIsSearching(false);
-
     setLandingPage(false);
-  };
-
-  const NavBar = () => {
-    const navElements = [
-      { title: "ASK", index: 0 },
-      {
-        title: "RANDOM",
-        index: 1,
-      },
-      { title: "QUIZ", index: 2 },
-    ];
-
-    return (
-      <div
-        className={`w-2/3 sm:w-3/4 xl:w-1/2 flex justify-between ${
-          hideNav ? "hidden" : ""
-        }`}
-      >
-        {navElements.map((item) => {
-          return (
-            <div key={item.index} className="flex flex-col">
-              <button
-                onClick={() => {
-                  setCurrentIndex(item.index);
-                }}
-                className={`text-lg sm:text-3xl font-bold uppercase hover:animate-hoverScale hover:text-gray-300 animate-hoverScaleReverse  ${
-                  currentIndex === item.index
-                    ? "text-white hover:text-white"
-                    : "text-gray-400"
-                }`}
-                disabled={item.index === 0}
-              >
-                {item.title}
-              </button>
-              {item.index === 0 && (
-                <p className="max-sm:text-xs">Coming soon</p>
-              )}
-            </div>
-          );
-        })}
-      </div>
-    );
   };
 
   const handleNavbarDisplay = (value: boolean) => {
@@ -98,10 +53,22 @@ export default function Home() {
             />
             <p className="text-3xl animate-textOpacity">Get Started</p>
           </button>
+
+          <a
+            href="https://www.linkedin.com/in/nicolas-gasparetto-404ab110b/"
+            target="_blank"
+            className="absolute bottom-5 right-5 font-bold text-sm sm:text-xl"
+          >
+            &gt;&gt; See the author.
+          </a>
         </>
       ) : (
         <>
-          <NavBar />
+          <NavBar
+            currentIndex={currentIndex}
+            setCurrentIndex={setCurrentIndex}
+            hideNav={hideNav}
+          />
           {currentIndex === 1 && (
             <RandomTopic
               firstTopic={firstTopic}
@@ -110,13 +77,6 @@ export default function Home() {
           )}
 
           {currentIndex === 2 && <RandomQuestion />}
-
-          <a
-            href="https://www.linkedin.com/in/nicolas-gasparetto-404ab110b/"
-            className="absolute bottom-5 right-5 font-medium text-sm sm:text-xl"
-          >
-            @Developed by ngprt.
-          </a>
         </>
       )}
     </div>
