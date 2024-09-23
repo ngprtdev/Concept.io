@@ -88,7 +88,7 @@ const Explanation: React.FC<ExplanationProps> = ({
         {newExplanationLoader ? (
           <div className="animate-spin rounded-full h-16 w-16 max-sm:mt-16 sm:h-32 sm:w-32 border-t-4 border-b-4 border-white" />
         ) : (
-          <div className="max-sm:max-h-[500px] max-sm:overflow-y-scroll animate-textOpacity max-sm:mt-16 max-sm:px-4">
+          <div className="max-sm:max-h-[300px] max-sm:overflow-y-scroll animate-textOpacity max-sm:mt-16 max-sm:px-4">
             <TextGenerateEffect words={newExplanation} />
           </div>
         )}
