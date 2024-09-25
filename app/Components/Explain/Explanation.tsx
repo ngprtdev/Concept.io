@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TextGenerateEffect } from "../ui/text-generate-effect";
-import getNewExplanation from "@/app/utils/getNewExplanation";
+import useNewRequest from "@/app/utils/useNewRequest";
 
 interface ExplanationProps {
   topic: string | null;
@@ -17,9 +17,13 @@ const Explanation: React.FC<ExplanationProps> = ({
 }) => {
   const [openingAnimation, setOpeningAnimation] = useState<boolean>(true);
   const [closingAnimation, setClosingAnimation] = useState<boolean>(false);
-  const [newExplanation, setNewExplanation] = useState<string>(response);
-  const [newExplanationLoader, setNewExplanationLoader] = useState(false);
-  const [prevResponse, setPrevResponse] = useState<string[]>([response]);
+
+  const {
+    newExplanation,
+    newExplanationLoader,
+    setPrevExplanation,
+    fetchNewExplanation,
+  } = useNewRequest(response);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -37,29 +41,10 @@ const Explanation: React.FC<ExplanationProps> = ({
       handleNav(false);
     }, 1500);
 
-    setPrevResponse([]);
+    setPrevExplanation([]);
     handleGoBack();
 
     return () => clearTimeout(closingTimer);
-  };
-
-  const handleNewRequest = async () => {
-    setNewExplanationLoader(true);
-
-    const fetchData = async () => {
-      try {
-        const data = await getNewExplanation(prevResponse);
-
-        setNewExplanation(data.message.content || "");
-        setPrevResponse([...prevResponse, newExplanation]);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    await fetchData();
-
-    setNewExplanationLoader(false);
   };
 
   return (
@@ -109,7 +94,7 @@ const Explanation: React.FC<ExplanationProps> = ({
         </button>
         <button
           className="hover:animate-hoverScale animate-hoverScaleReverse"
-          onClick={handleNewRequest}
+          onClick={fetchNewExplanation}
         >
           Tell me more
         </button>

@@ -34,7 +34,7 @@ export default function Home() {
   };
 
   return (
-    <div className="font-pacifico w-full h-[80%] sm:w-2/3 flex flex-col items-center justify-between mx-auto">
+    <div className="font-pacifico w-full h-4/5 sm:w-2/3 flex flex-col items-center justify-between mx-auto">
       {landingPage ? (
         <>
           <p className="text-xl sm:text-3xl font-bold font-pacifico uppercase animate-textOpacity">
